@@ -92,60 +92,67 @@
 /* CONFIGURAÇÕES DO REPOSITÓRIO */
 const owner = "profkleidivaldo";
 const repo  = "livroteste";
-const branch = "main"; 
+const branch = "main";
 
-/* Estrutura esperada:
-/unidade-1/
-  /capitulo-1/
-    aula.html
-    atividade.html
-  /capitulo-2/
-/unidade-2/
-*/
-
+/* Como as unidades estão na RAIZ, o caminho fica vazio */
 const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents?ref=${branch}`;
 
-async function carregarLivro(){
+async function carregarLivro() {
   const res = await fetch(apiBase);
   const dados = await res.json();
 
-  const nav = document.getElementById('indice');
-  const unidades = dados.filter(i => i.type === 'dir');
+  if (!Array.isArray(dados)) {
+    console.error("Erro ao acessar o repositório:", dados);
+    return;
+  }
 
-  for(const unidade of unidades){
-    const uDiv = document.createElement('div');
-    uDiv.className = 'unidade';
+  const nav = document.getElementById("indice");
 
-    const uTitulo = document.createElement('div');
-    uTitulo.className = 'unidade-titulo';
+  /* Filtra apenas pastas que começam com 'unidade' */
+  const unidades = dados.filter(
+    item => item.type === "dir" && item.name.toLowerCase().startsWith("unidade")
+  );
+
+  for (const unidade of unidades) {
+    const uDiv = document.createElement("div");
+    uDiv.className = "unidade";
+
+    const uTitulo = document.createElement("div");
+    uTitulo.className = "unidade-titulo";
     uTitulo.textContent = formatar(unidade.name);
 
-    const capsDiv = document.createElement('div');
-    capsDiv.className = 'capitulos';
+    const capsDiv = document.createElement("div");
+    capsDiv.className = "capitulos";
 
-    uTitulo.onclick = () =>{
-      capsDiv.style.display = capsDiv.style.display === 'block' ? 'none' : 'block';
+    uTitulo.onclick = () => {
+      capsDiv.style.display =
+        capsDiv.style.display === "block" ? "none" : "block";
     };
 
     const caps = await fetch(unidade.url).then(r => r.json());
 
-    for(const cap of caps.filter(c => c.type === 'dir')){
-      const h4 = document.createElement('h4');
+    for (const cap of caps.filter(c => c.type === "dir")) {
+      const h4 = document.createElement("h4");
       h4.textContent = formatar(cap.name);
       capsDiv.appendChild(h4);
 
-      const ul = document.createElement('ul');
+      const ul = document.createElement("ul");
       const paginas = await fetch(cap.url).then(r => r.json());
 
-      paginas.filter(p => p.name.endsWith('.html')).forEach(p =>{
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = p.html_url.replace('github.com','raw.githubusercontent.com').replace('/blob/','/');
-        a.target = '_blank';
-        a.textContent = formatar(p.name.replace('.html',''));
-        li.appendChild(a);
-        ul.appendChild(li);
-      });
+      paginas
+        .filter(p => p.name.endsWith(".html"))
+        .forEach(p => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+
+          /* Forma correta para abrir páginas HTML */
+          a.href = p.download_url;
+          a.target = "_blank";
+          a.textContent = formatar(p.name.replace(".html", ""));
+
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
 
       capsDiv.appendChild(ul);
     }
@@ -156,12 +163,16 @@ async function carregarLivro(){
   }
 }
 
-function formatar(txt){
-  return txt.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
+function formatar(txt) {
+  return txt
+    .replace(/-/g, " ")
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, l => l.toUpperCase());
 }
 
 carregarLivro();
 </script>
+
 
 </body>
 </html>
