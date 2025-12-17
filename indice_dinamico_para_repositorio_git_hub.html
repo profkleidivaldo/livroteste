@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Livro Didático Digital</title>
+  <style>
+    body{
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:#f2f4f7;
+      margin:0;
+      padding:0;
+    }
+    header{
+      background:#1f2937;
+      color:#fff;
+      padding:20px;
+      text-align:center;
+    }
+    main{
+      display:flex;
+      min-height:100vh;
+    }
+    nav{
+      width:320px;
+      background:#ffffff;
+      border-right:1px solid #e5e7eb;
+      padding:16px;
+      overflow-y:auto;
+    }
+    section{
+      flex:1;
+      padding:30px;
+    }
+    .unidade{
+      margin-bottom:12px;
+      border:1px solid #e5e7eb;
+      border-radius:8px;
+      overflow:hidden;
+    }
+    .unidade-titulo{
+      background:#2563eb;
+      color:#fff;
+      padding:12px 16px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .capitulos{
+      display:none;
+      padding:10px 16px;
+      background:#f9fafb;
+    }
+    .capitulos ul{
+      list-style:none;
+      padding-left:0;
+      margin:0;
+    }
+    .capitulos li{
+      margin:8px 0;
+    }
+    .capitulos a{
+      text-decoration:none;
+      color:#1d4ed8;
+      font-size:15px;
+    }
+    .capitulos a:hover{
+      text-decoration:underline;
+    }
+    .descricao{
+      font-size:14px;
+      color:#374151;
+      margin-top:4px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Livro Didático Digital</h1>
+  <p>Material organizado por unidades, capítulos e objetos de aprendizagem</p>
+</header>
+
+<main>
+  <nav id="indice"></nav>
+  <section>
+    <h2>Apresentação</h2>
+    <p>Selecione uma unidade no menu lateral para acessar os capítulos, atividades, vídeos e materiais interativos do livro didático digital.</p>
+  </section>
+</main>
+
+<script>
+/* CONFIGURAÇÕES DO REPOSITÓRIO */
+const owner = "SEU_USUARIO";
+const repo  = "SEU_REPOSITORIO";
+const branch = "main";
+
+/* Estrutura esperada:
+/unidade-1/
+  /capitulo-1/
+    aula.html
+    atividade.html
+  /capitulo-2/
+/unidade-2/
+*/
+
+const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents?ref=${branch}`;
+
+async function carregarLivro(){
+  const res = await fetch(apiBase);
+  const dados = await res.json();
+
+  const nav = document.getElementById('indice');
+  const unidades = dados.filter(i => i.type === 'dir');
+
+  for(const unidade of unidades){
+    const uDiv = document.createElement('div');
+    uDiv.className = 'unidade';
+
+    const uTitulo = document.createElement('div');
+    uTitulo.className = 'unidade-titulo';
+    uTitulo.textContent = formatar(unidade.name);
+
+    const capsDiv = document.createElement('div');
+    capsDiv.className = 'capitulos';
+
+    uTitulo.onclick = () =>{
+      capsDiv.style.display = capsDiv.style.display === 'block' ? 'none' : 'block';
+    };
+
+    const caps = await fetch(unidade.url).then(r => r.json());
+
+    for(const cap of caps.filter(c => c.type === 'dir')){
+      const h4 = document.createElement('h4');
+      h4.textContent = formatar(cap.name);
+      capsDiv.appendChild(h4);
+
+      const ul = document.createElement('ul');
+      const paginas = await fetch(cap.url).then(r => r.json());
+
+      paginas.filter(p => p.name.endsWith('.html')).forEach(p =>{
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = p.html_url.replace('github.com','raw.githubusercontent.com').replace('/blob/','/');
+        a.target = '_blank';
+        a.textContent = formatar(p.name.replace('.html',''));
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+
+      capsDiv.appendChild(ul);
+    }
+
+    uDiv.appendChild(uTitulo);
+    uDiv.appendChild(capsDiv);
+    nav.appendChild(uDiv);
+  }
+}
+
+function formatar(txt){
+  return txt.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
+}
+
+carregarLivro();
+</script>
+
+</body>
+</html>
