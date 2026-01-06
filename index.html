@@ -98,16 +98,52 @@ const apiBase   = `https://api.github.com/repos/${owner}/${repo}/contents?ref=${
 
 const progresso = JSON.parse(localStorage.getItem("progressoLivro") || "{}");
 
-function salvarProgresso(p){ progresso[p]=true; localStorage.setItem("progressoLivro",JSON.stringify(progresso)); }
+function salvarProgresso(p){
+  progresso[p]=true;
+  localStorage.setItem("progressoLivro",JSON.stringify(progresso));
+}
 
-function toggleMenu(){ document.getElementById("indice").classList.toggle("ativo"); }
+function toggleMenu(){
+  document.getElementById("indice").classList.toggle("ativo");
+}
+
+/* ===== CAPA DO LIVRO (ACRÉSCIMO) ===== */
+const capaHTML = `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+body{
+  margin:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f2f4f7;
+  height:100vh;
+}
+img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+</style>
+</head>
+<body>
+  <img src="https://i.postimg.cc/Z5jmTMk5/Capa-de-Livro-Educacional-Matematica-Infantil-Divertido-Bege-Marrom.png" alt="Capa do Livro">
+</body>
+</html>
+`;
+
+const viewer = document.getElementById("viewer");
+viewer.src = URL.createObjectURL(new Blob([capaHTML], { type: "text/html" }));
+/* ===== FIM DA CAPA ===== */
 
 async function carregarLivro(){
   const res = await fetch(apiBase);
   const dados = await res.json();
 
   const indice = document.getElementById("indice");
-  const iframe = document.getElementById("viewer");
 
   const unidades = dados.filter(d=>d.type==="dir" && d.name.toLowerCase().startsWith("unidade"));
 
@@ -139,23 +175,28 @@ async function carregarLivro(){
         if(progresso[caminho]) a.classList.add('concluido');
 
         a.onclick=()=>{
-          iframe.src=`${pagesBase}/${caminho}`;
+          viewer.src=`${pagesBase}/${caminho}`;
           salvarProgresso(caminho);
           a.classList.add('concluido');
           if(window.innerWidth<900) toggleMenu();
         };
 
-        li.appendChild(a); ul.appendChild(li);
+        li.appendChild(a);
+        ul.appendChild(li);
       });
 
       capsDiv.appendChild(ul);
     }
 
-    uDiv.appendChild(uTitulo); uDiv.appendChild(capsDiv); indice.appendChild(uDiv);
+    uDiv.appendChild(uTitulo);
+    uDiv.appendChild(capsDiv);
+    indice.appendChild(uDiv);
   }
 }
 
-function formatar(t){ return t.replace(/[-_]/g,' ').replace(/\b\w/g,l=>l.toUpperCase()); }
+function formatar(t){
+  return t.replace(/[-_]/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
+}
 
 carregarLivro();
 </script>
