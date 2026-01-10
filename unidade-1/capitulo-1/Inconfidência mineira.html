@@ -1,0 +1,434 @@
+
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Conteúdo Gerado</title>
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <style>
+                        body { font-family: Baskerville, serif; font-size: 20px; line-height: 1.6; margin: 10px; background: url('https://st5.depositphotos.com/1032577/66413/i/450/depositphotos_664139922-stock-photo-bright-paper-white-paper-texture.jpg') repeat; }
+                        h1 { text-align: left; color: white; font-size: 32px; font-weight: bold; height: 150px; padding: 20px; background: url("https://picsum.photos/1200/300") no-repeat center center; background-size: cover; border-radius: 8px; margin: 10px 0; text-shadow: 2px 2px 6px rgba(0,0,0,0.7); }
+                        h2 { color: #8B0000; font-size: 30px; }
+                        h2 + p:first-letter{
+  float: left;
+  font-size: 3.6em;
+  line-height: 0.9;
+  padding-right: 10px;
+  padding-left: 2px;
+  font-weight: bold;
+  color: #8B0000;
+  font-family: "Baskerville";
+}
+                        .dica-destacada { background: url('https://img.freepik.com/fotos-premium/fundo-quadrado-de-papel-pastel-marrom-claro_696657-18774.jpg') no-repeat center center; background-size: cover; padding: 25px; border-radius: 8px; font-weight: bold; font-family: monospace; font-size: 20px; color: #f2f0f0; margin: 15px 0; }
+                        .pergunta-direta { margin: 20px 0; padding: 15px; background-color: #e8f0fe; border-left: 6px solid #003366; border-radius: 6px; font-weight: bold; color: #003366; }
+                        .papel-resposta { display: block; width: 90%; height: 150px; padding: 10px 15px; font-family: 'Baskerville'; font-size: 20px; line-height: 40px; border: none; outline: none; background: repeating-linear-gradient(to bottom, #fffdf5, #fffdf5 39px, #e0dccc 40px); box-shadow: 0 0 10px rgba(0,0,0,0.1); resize: none; margin: 15px auto; border-radius: 8px; }
+                        img { max-width: 100%; height: auto; border-radius: 6px; }
+                        .video-container { position: relative; padding-bottom: 56.25%; height: 0; }
+                        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 6px; }
+
+                        /* quiz style (mesmo visual) */
+                        .quiz-card { margin: 18px 0; padding: 14px; border-radius: 8px; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.06); border: 1px solid #e6e2de; }
+                        .quiz-header { font-weight: bold; margin-bottom: 8px; color: #003366; font-size: 18px; }
+                        .quiz-enunciado { font-size: 20px; margin-bottom: 8px; color: #222; }
+                        .quiz-image { max-width: 100%; height: auto; margin: 10px 0; border-radius: 6px; border: 1px solid #eee; }
+                        .option-label { display: block; margin: 8px 0; padding: 8px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; }
+                        .option-input { margin-right: 10px; }
+                        .option-label.correct { background-color: #dff0d8; border-color: #c3e6cb; }
+                        .option-label.incorrect { background-color: #f8d7da; border-color: #f5c6cb; }
+                        .quiz-actions { margin-top: 12px; display: flex; gap: 10px; align-items: center; }
+                        .quiz-result { font-weight: bold; margin-left: 8px; }
+                    </style>
+                </head>
+                <body>
+                    
+            <h2></h2>
+            <div id="visualizacao"><h1>Inconfidência mineira</h1><div>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herói X da Matemática</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:#eef3ff;
+  font-family:Arial, sans-serif;
+}
+
+/* CONTAINER */
+.mascote-container{
+  position:fixed;
+  bottom:16px;
+  right:16px;
+  width:120px;
+  z-index:1000;
+}
+
+/* PERSONAGEM */
+.mascote{
+  position:relative;
+  width:110px;
+  height:110px;
+  margin:auto;
+  cursor:pointer;
+  animation: flutuar 3s ease-in-out infinite;
+}
+
+/* =========================
+   CORPO EM X
+========================= */
+.x{
+  position:absolute;
+  width:100%;
+  height:100%;
+}
+
+.barra{
+  position:absolute;
+  width:100%;
+  height:30px;
+  background:linear-gradient(#ffca28,#ffb300);
+  border-radius:24px;
+  top:40px;
+  left:0;
+  box-shadow:0 4px 6px rgba(0,0,0,.2);
+}
+
+.barra.diag1{ transform:rotate(45deg); }
+.barra.diag2{ transform:rotate(-45deg); }
+
+/* =========================
+   ROSTO
+========================= */
+.rosto{
+  position:absolute;
+  top:34px;
+  left:50%;
+  transform:translateX(-50%);
+  width:70px;
+  height:42px;
+  background:#1976d2;
+  border-radius:22px;
+  z-index:2;
+  box-shadow:0 4px 6px rgba(0,0,0,.25);
+}
+
+/* SOBRANCELHAS */
+.sobrancelha{
+  position:absolute;
+  width:14px;
+  height:4px;
+  background:#0d47a1;
+  top:8px;
+  border-radius:4px;
+}
+.sobrancelha.esq{ left:14px; }
+.sobrancelha.dir{ right:14px; }
+
+/* OLHOS */
+.olho{
+  position:absolute;
+  width:12px;
+  height:12px;
+  background:#fff;
+  border-radius:50%;
+  top:14px;
+  animation: piscar 5s infinite;
+}
+
+.olho::after{
+  content:"";
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:#000;
+  border-radius:50%;
+  top:3px;
+  left:3px;
+}
+
+.olho.esq{ left:16px; }
+.olho.dir{ right:16px; }
+
+/* BOCA */
+.boca{
+  position:absolute;
+  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+  width:20px;
+  height:10px;
+  border-bottom:3px solid #fff;
+  border-radius:0 0 20px 20px;
+}
+
+/* CAPA */
+.capa{
+  position:absolute;
+  top:70px;
+  left:50%;
+  transform:translateX(-50%);
+  width:80px;
+  height:45px;
+  background:#0d47a1;
+  border-radius:0 0 40px 40px;
+  z-index:-1;
+  box-shadow:0 6px 8px rgba(0,0,0,.3);
+}
+
+/* =========================
+   BALÃO
+========================= */
+.balao{
+  position:absolute;
+  bottom:145px;
+  right:0;
+  width:220px;
+  background:#fff;
+  padding:14px;
+  border-radius:16px;
+  box-shadow:0 6px 14px rgba(0,0,0,.2);
+  display:none;
+  animation:surgir .3s ease;
+}
+
+.balao::after{
+  content:"";
+  position:absolute;
+  bottom:-14px;
+  right:26px;
+  border-width:14px 12px 0 12px;
+  border-style:solid;
+  border-color:#fff transparent transparent transparent;
+}
+
+.balao h4{
+  margin:0 0 6px;
+  color:#1976d2;
+}
+
+.balao p{
+  margin:0;
+  font-size:14px;
+}
+
+.balao button{
+  margin-top:8px;
+  border:none;
+  background:#1976d2;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:8px;
+}
+
+/* =========================
+   ANIMAÇÕES
+========================= */
+@keyframes flutuar{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-10px); }
+}
+
+@keyframes piscar{
+  0%,95%,100%{ height:12px; }
+  96%,98%{ height:2px; }
+}
+
+@keyframes surgir{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+@keyframes pulo{
+  0%{ transform:scale(1); }
+  50%{ transform:scale(1.12) translateY(-8px); }
+  100%{ transform:scale(1); }
+}
+
+@keyframes chamarAtencao{
+  0%{ transform:rotate(0); }
+  25%{ transform:rotate(-6deg); }
+  50%{ transform:rotate(6deg); }
+  75%{ transform:rotate(-4deg); }
+  100%{ transform:rotate(0); }
+}
+
+/* =========================
+   EMOÇÕES
+========================= */
+.mascote.feliz .boca{
+  width:26px;
+  height:14px;
+  border-bottom:4px solid #fff;
+}
+
+.mascote.confuso .boca{
+  width:18px;
+  height:6px;
+  border-bottom:2px solid #fff;
+  transform:translateX(-50%) rotate(-10deg);
+}
+
+.mascote.confuso .sobrancelha.esq{ transform:rotate(-15deg); }
+.mascote.confuso .sobrancelha.dir{ transform:rotate(15deg); }
+
+/* CHAMAR ATENÇÃO */
+.mascote.atencao{
+  animation: chamarAtencao 1s ease-in-out infinite;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+  .mascote-container{ width:95px; }
+  .balao{ width:190px; }
+}
+</style>
+
+
+
+
+<div class="mascote-container">
+
+  <div class="balao" id="balao">
+    <h4>Herói X</h4>
+    <p id="texto">Ei! Vamos continuar?</p>
+    <button onclick="fechar()">Entendi</button>
+  </div>
+
+  <div class="mascote" id="mascote" onclick="interacao()">
+
+    <div class="x">
+      <div class="barra diag1"></div>
+      <div class="barra diag2"></div>
+    </div>
+
+    <div class="rosto">
+      <div class="sobrancelha esq"></div>
+      <div class="sobrancelha dir"></div>
+      <div class="olho esq"></div>
+      <div class="olho dir"></div>
+      <div class="boca"></div>
+    </div>
+
+    <div class="capa"></div>
+
+  </div>
+</div>
+
+<script>
+let timerAtencao;
+
+function setEmocao(tipo){
+  const mascote = document.getElementById("mascote");
+  mascote.classList.remove("feliz","confuso","atencao");
+  if(tipo) mascote.classList.add(tipo);
+}
+
+function falar(texto){
+  document.getElementById("texto").innerText = texto;
+  document.getElementById("balao").style.display = "block";
+}
+
+function fechar(){
+  document.getElementById("balao").style.display = "none";
+  setEmocao();
+}
+
+function interacao(){
+  clearTimeout(timerAtencao);
+  setEmocao("feliz");
+  falar("A inconfidência ganhou esse nome porque alguem contou o segredo! Curioso né!");
+  iniciarAtencao();
+}
+
+function iniciarAtencao(){
+  timerAtencao = setTimeout(() => {
+    setEmocao("confuso");
+    document.getElementById("mascote").classList.add("atencao");
+    falar("Ei! Estou aqui para te ajudar 😊");
+  }, 6000); // 6 segundos sem interação
+}
+
+iniciarAtencao();
+</script>
+
+
+
+</div><h2>O que ouve na inconfidencia???</h2><img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Bandeira_da_Inconfid%C3%AAncia_1789_Os_Inconfidentes.jpg" class="media-element"><p>&nbsp; &nbsp; A Inconfidência Mineira (ou Conjuração Mineira) é como ficou conhecida a revolta de caráter separatista que estava sendo organizada na capitania das Minas Gerais no final do século XVIII. Essa revolta foi organizada pela elite socioeconômica de Minas Gerais e acabou sendo descoberta pela Coroa portuguesa antes de ser iniciada.</p><img src="https://s3.static.brasilescola.uol.com.br/be/conteudo/images/vila-rica.jpg" class="media-element"><p>&nbsp; &nbsp; A Inconfidência Mineira (ou Conjuração Mineira) foi resultado da insatisfação da elite econômica da capitania das Minas Gerais com a política fiscal imposta pela Coroa portuguesa.&nbsp;</p><p>&nbsp; &nbsp; Essa insatisfação existiu ao longo de todo o século XVIII, mas,a partir da década de 1780, ganhou força e ares de separatismo, dando uma nova dimensão a esse movimento político.
+
+Não se sabe o momento preciso em que a elite das Minas Gerais começou a conspirar contra a Coroa, mas se sabe que foi em algum ponto da década de 1780.</p><p>&nbsp; &nbsp; Os envolvidos com essa revolta tinham em mente que os impostos cobrados por Portugal eram excessivos, mas também estavam imbuídos de outros ideais — como a separação de Minas Gerais e sua transformação em uma república.</p><div class="video-container"><iframe src="https://www.youtube.com/embed/mnTJr9yYK38" allowfullscreen=""></iframe></div><h2>Os Inconfidentes: líderes da Inconfidência Mineira</h2><p>Os inconfidentes eram, em sua maioria, grandes proprietários, mineradores, padres e letrados, como Cláudio Manuel da Costa.&nbsp;</p><p>&nbsp; &nbsp; Oriundo de família enriquecida na mineração, havia estudado em Coimbra e foi alto funcionário da administração colonial. Por sua parte, Alvarenga Peixoto era minerador e latifundiário.&nbsp;</p><p>&nbsp;Tomás Antônio Gonzaga, escritor e poeta, depois de estudos jurídicos na Europa, tornou-se ouvidor (juiz) em Vila Rica.&nbsp;</p><p>&nbsp;Francisco de Paula Freire, tenente-coronel e comandante do Regimento dos Dragões (tropa militar de Minas Gerais), estava hierarquicamente logo abaixo do governador.&nbsp;</p><p>&nbsp; &nbsp;Joaquim José da Silva Xavier, chamado de Tiradentes, era filho de um pequeno fazendeiro e ganhou a vida como militar, dentista, tropeiro e comerciante.&nbsp;</p><p>&nbsp; &nbsp; &nbsp;Foi o mais popular entre os conspiradores e, embora não tenha sido o idealizador do movimento, teve papel importante na propagação das ideias revolucionárias junto à população.</p><h2>Consequências da Inconfidência Mineira</h2><p>Embora derrotada, a Inconfidência Mineira foi um episódio importante no questionamento das estruturas coloniais.&nbsp;</p><p>&nbsp; &nbsp; Sua mobilização e a difusão de suas ideias contribuíram para a insatisfação dos colonos perante às atitudes abusivas da Coroa Portuguesa.
+
+Além disso, trata-se do primeiro movimento político a defender a emancipação política na América Portuguesa.&nbsp;</p><p>&nbsp; &nbsp;Ainda que restrito a Minas Gerais, o movimento contribuiu para consolidar a ideia de ruptura com a metrópole entre a sociedade brasileira.
+
+O episódio serviu de inspiração para movimentos posteriores, e tornou-se um símbolo da luta pela liberdade, especialmente a partir do período republicano.</p><p>&nbsp; &nbsp; &nbsp;Após a proclamação da República, a memória da Inconfidência e de Tiradentes foi resgatada e celebrada. O governo republicano construiu em torno do personagem uma imagem de um mártir pela liberdade e pela república, que deu a própria vida para combater os excessos do absolutismo político.</p><img src="https://static.todamateria.com.br/upload/ma/pa/mapamentalinconfidenciamineira-cke.jpg" class="media-element"><div><iframe style="max-width:100%" src="https://wordwall.net/pt/embed/1e6e4b148707493a94ed4d00658b2ea7?themeId=21&amp;templateId=69&amp;fontStackId=0" width="500" height="380" frameborder="0" allowfullscreen=""></iframe></div></div>
+        
+                    <script>
+                        /* Script embarcado para manter comportamento dos quizzes e perguntas diretas no arquivo exportado */
+                        (function(){
+                            // restaura respostas para Perguntas Diretas
+                            document.querySelectorAll('.papel-resposta').forEach(area=>{
+                                const chave = area.getAttribute('data-chave');
+                                if(chave && localStorage.getItem(chave)) area.value = localStorage.getItem(chave);
+                                area.addEventListener('input', ()=> {
+                                    if(chave) localStorage.setItem(chave, area.value);
+                                });
+                            });
+
+                            // para cada quiz-card, restaurar seleção salva e adicionar listeners
+                            document.querySelectorAll('.quiz-card').forEach(container=>{
+                                const quizId = container.getAttribute('data-quiz-id');
+                                if(!quizId) return;
+                                const key = 'quiz_answer_' + quizId;
+                                // associa listener de change e restaura se necessário
+                                const radios = container.querySelectorAll('input[type="radio"]');
+                                radios.forEach(r=>{
+                                    r.addEventListener('change', (e)=> {
+                                        localStorage.setItem(key, e.target.value);
+                                    });
+                                });
+                                const saved = localStorage.getItem(key);
+                                if(saved){
+                                    const r = container.querySelector('input[type="radio"][value="'+saved+'"]');
+                                    if(r) r.checked = true;
+                                }
+                            });
+
+                            // função global para verificar quiz (será chamada pelo botão)
+                            window.verificarQuiz = function(btn){
+                                const container = btn.closest('.quiz-card');
+                                if(!container) return;
+                                const radios = container.querySelectorAll('input[type="radio"]');
+                                const quizId = container.getAttribute('data-quiz-id');
+                                const resultBox = container.querySelector('.quiz-result');
+                                container.querySelectorAll('.option-label').forEach(l=> l.classList.remove('correct','incorrect'));
+
+                                let correctRadio = null;
+                                radios.forEach(r=>{
+                                    if(r.hasAttribute('data-correct')) correctRadio = r;
+                                });
+
+                                const selected = container.querySelector('input[type="radio"]:checked');
+                                if(!selected){
+                                    if(resultBox) resultBox.textContent = 'Escolha uma opção antes de verificar.';
+                                    return;
+                                }
+
+                                if(correctRadio){
+                                    const correctLabel = correctRadio.closest('.option-label');
+                                    if(correctLabel) correctLabel.classList.add('correct');
+                                }
+                                const selectedLabel = selected.closest('.option-label');
+                                if(selectedLabel && !selected.hasAttribute('data-correct')) selectedLabel.classList.add('incorrect');
+
+                                const key = 'quiz_answer_' + quizId;
+                                localStorage.setItem(key, selected.value);
+                                const acerto = selected.hasAttribute('data-correct') ? 1 : 0;
+                                if(resultBox) resultBox.textContent = acerto ? 'Resposta correta ✓' : 'Resposta incorreta ✗';
+                            };
+                        })();
+                    </script>
+                </body>
+                </html>
+            
