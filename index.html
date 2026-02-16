@@ -6,70 +6,370 @@
 <title>Livro Didático Digital</title>
 
 <style>
-:root{ --azul:#2563eb; --cinza:#1f2937; }
-
-body{ margin:0; font-family:"Segoe UI", Arial, sans-serif; background:#f2f4f7; }
-
-header{
-  background:var(--cinza);
-  color:#fff;
-  padding:14px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #ec4899;
+  --success: #10b981;
+  --background: #f8fafc;
+  --card: #ffffff;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --hover: #f1f5f9;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-header h1{ font-size:18px; margin:0; }
-
-.menu-btn{ font-size:22px; cursor:pointer; display:none; }
-
-main{ display:flex; height:calc(100vh - 60px); }
-
-nav{
-  width:320px;
-  background:#fff;
-  border-right:1px solid #e5e7eb;
-  padding:16px;
-  overflow-y:auto;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-nav.oculto{ transform:translateX(-100%); }
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
 
-.unidade{ margin-bottom:12px; border:1px solid #e5e7eb; border-radius:8px; }
+/* ===== HEADER ===== */
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-lg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-.unidade-titulo{ background:var(--azul); color:#fff; padding:12px 16px; font-weight:600; cursor:pointer; }
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
-.capitulos{ display:none; padding:10px 16px; background:#f9fafb; }
+.logo {
+  font-size: 1.8rem;
+  animation: bounce 2s infinite;
+}
 
-.capitulos h4{ margin:10px 0 6px; }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
 
-.capitulos ul{ list-style:none; padding:0; }
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
 
-.capitulos li{ margin:6px 0; }
+.menu-btn {
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.3s ease;
+}
 
-.capitulos a{ cursor:pointer; text-decoration:none; color:#1d4ed8; font-size:15px; }
+.menu-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
 
-.capitulos a.concluido{ color:#16a34a; font-weight:600; }
+/* ===== LAYOUT PRINCIPAL ===== */
+main {
+  display: flex;
+  height: calc(100vh - 73px);
+  max-width: 1920px;
+  margin: 0 auto;
+}
 
-section{ flex:1; background:#fff; }
+/* ===== NAVEGAÇÃO LATERAL ===== */
+nav {
+  width: 340px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+}
 
-iframe{ width:100%; height:100%; border:none; }
+nav::-webkit-scrollbar {
+  width: 8px;
+}
 
-/* MOBILE */
-@media(max-width:900px){
-  nav{
-    position:absolute;
-    top:60px;
-    left:0;
-    height:calc(100vh - 60px);
-    z-index:10;
-    transform:translateX(-100%);
-    transition:transform .3s ease;
+nav::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+nav::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+.nav-header {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.progress-container {
+  margin-top: 1rem;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.progress-bar {
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+}
+
+.indice-content {
+  padding: 1rem;
+}
+
+/* ===== UNIDADES ===== */
+.unidade {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card);
+  border: 2px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.unidade:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.unidade-titulo {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 1rem 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  font-size: 1.05rem;
+}
+
+.unidade-titulo:hover {
+  padding-left: 1.5rem;
+}
+
+.unidade-icone {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.unidade-titulo.expandido .unidade-icone {
+  transform: rotate(180deg);
+}
+
+/* ===== CAPÍTULOS ===== */
+.capitulos {
+  display: none;
+  padding: 1rem;
+  background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.capitulos h4 {
+  margin: 1rem 0 0.75rem;
+  color: var(--primary-dark);
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.capitulos h4::before {
+  content: "📖";
+  font-size: 1.2rem;
+}
+
+.capitulos ul {
+  list-style: none;
+}
+
+.capitulos li {
+  margin: 0.5rem 0;
+}
+
+.capitulos a {
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: white;
+  border: 1px solid var(--border);
+}
+
+.capitulos a:hover {
+  background: var(--hover);
+  border-color: var(--primary);
+  padding-left: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.capitulos a::before {
+  content: "📄";
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.capitulos a:hover::before {
+  transform: scale(1.2);
+}
+
+.capitulos a.concluido {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #065f46;
+  font-weight: 600;
+  border-color: var(--success);
+}
+
+.capitulos a.concluido::before {
+  content: "✅";
+}
+
+/* ===== ÁREA DE VISUALIZAÇÃO ===== */
+section {
+  flex: 1;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ===== LOADING ===== */
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--primary);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
+  nav {
+    position: fixed;
+    top: 73px;
+    left: 0;
+    height: calc(100vh - 73px);
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 85%;
+    max-width: 340px;
   }
 
-  nav.ativo{ transform:translateX(0); }
+  nav.ativo {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
 
-  .menu-btn{ display:block; }
+  .menu-btn {
+    display: block;
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 73px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 40;
+    backdrop-filter: blur(4px);
+  }
+
+  .overlay.ativo {
+    display: block;
+  }
+}
+
+/* ===== ANIMAÇÕES EXTRAS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease;
 }
 </style>
 </head>
@@ -77,14 +377,38 @@ iframe{ width:100%; height:100%; border:none; }
 <body>
 
 <header>
-  <h1>Livro Didático Digital</h1>
+  <div class="header-content">
+    <span class="logo">📚</span>
+    <h1>Livro Didático Digital</h1>
+  </div>
   <span class="menu-btn" onclick="toggleMenu()">☰</span>
 </header>
 
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
 <main>
-  <nav id="indice"></nav>
+  <nav id="nav">
+    <div class="nav-header">
+      <h3 style="color: var(--primary-dark); font-size: 1.1rem;">📖 Seu Progresso</h3>
+      <div class="progress-container">
+        <div class="progress-label">
+          <span>Concluído</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="indice-content" id="indice"></div>
+  </nav>
+  
   <section>
-    <iframe id="viewer"></iframe>
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Carregando...</p>
+    </div>
+    <iframe id="viewer" style="display: none;"></iframe>
   </section>
 </main>
 
@@ -97,105 +421,169 @@ const pagesBase = `https://${owner}.github.io/${repo}`;
 const apiBase   = `https://api.github.com/repos/${owner}/${repo}/contents?ref=${branch}`;
 
 const progresso = JSON.parse(localStorage.getItem("progressoLivro") || "{}");
+let totalPaginas = 0;
 
-function salvarProgresso(p){
-  progresso[p]=true;
-  localStorage.setItem("progressoLivro",JSON.stringify(progresso));
+function salvarProgresso(p) {
+  progresso[p] = true;
+  localStorage.setItem("progressoLivro", JSON.stringify(progresso));
+  atualizarBarraProgresso();
 }
 
-function toggleMenu(){
-  document.getElementById("indice").classList.toggle("ativo");
+function atualizarBarraProgresso() {
+  const concluidas = Object.keys(progresso).length;
+  const percentual = totalPaginas > 0 ? Math.round((concluidas / totalPaginas) * 100) : 0;
+  
+  document.getElementById("progressBar").style.width = percentual + "%";
+  document.getElementById("progressText").textContent = percentual + "%";
 }
 
-/* ===== CAPA DO LIVRO (ACRÉSCIMO) ===== */
+function toggleMenu() {
+  document.getElementById("nav").classList.toggle("ativo");
+  document.getElementById("overlay").classList.toggle("ativo");
+}
+
+/* ===== CAPA DO LIVRO ===== */
 const capaHTML = `
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <style>
-body{
-  margin:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f2f4f7;
-  height:100vh;
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
 }
-img{
-  max-width:100%;
-  max-height:100%;
-  object-fit:contain;
+.container {
+  text-align: center;
+  animation: fadeIn 1s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+img {
+  max-width: 90%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+img:hover {
+  transform: scale(1.02);
+}
+h1 {
+  color: white;
+  margin-top: 2rem;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 </style>
 </head>
 <body>
-  <img src="https://i.postimg.cc/Z5jmTMk5/Capa-de-Livro-Educacional-Matematica-Infantil-Divertido-Bege-Marrom.png" alt="Capa do Livro">
+  <div class="container">
+    <img src="https://i.postimg.cc/Z5jmTMk5/Capa-de-Livro-Educacional-Matematica-Infantil-Divertido-Bege-Marrom.png" alt="Capa do Livro">
+    <h1>✨ Bem-vindo! ✨</h1>
+  </div>
 </body>
 </html>
 `;
 
 const viewer = document.getElementById("viewer");
+const loading = document.getElementById("loading");
+
+viewer.onload = function() {
+  loading.style.display = "none";
+  viewer.style.display = "block";
+  viewer.classList.add("fade-in");
+};
+
 viewer.src = URL.createObjectURL(new Blob([capaHTML], { type: "text/html" }));
-/* ===== FIM DA CAPA ===== */
 
-async function carregarLivro(){
-  const res = await fetch(apiBase);
-  const dados = await res.json();
+/* ===== CARREGAR ESTRUTURA DO LIVRO ===== */
+async function carregarLivro() {
+  try {
+    const res = await fetch(apiBase);
+    const dados = await res.json();
 
-  const indice = document.getElementById("indice");
+    const indice = document.getElementById("indice");
+    const unidades = dados.filter(d => d.type === "dir" && d.name.toLowerCase().startsWith("unidade"));
 
-  const unidades = dados.filter(d=>d.type==="dir" && d.name.toLowerCase().startsWith("unidade"));
+    for (const unidade of unidades) {
+      const uDiv = document.createElement("div");
+      uDiv.className = "unidade";
 
-  for(const unidade of unidades){
-    const uDiv=document.createElement("div"); uDiv.className="unidade";
+      const uTitulo = document.createElement("div");
+      uTitulo.className = "unidade-titulo";
+      uTitulo.innerHTML = `
+        <span>${formatar(unidade.name)}</span>
+        <span class="unidade-icone">▼</span>
+      `;
 
-    const uTitulo=document.createElement("div"); uTitulo.className="unidade-titulo";
-    uTitulo.textContent=formatar(unidade.name);
+      const capsDiv = document.createElement("div");
+      capsDiv.className = "capitulos";
 
-    const capsDiv=document.createElement("div"); capsDiv.className="capitulos";
+      uTitulo.onclick = () => {
+        const isExpandido = capsDiv.style.display === "block";
+        capsDiv.style.display = isExpandido ? "none" : "block";
+        uTitulo.classList.toggle("expandido");
+      };
 
-    uTitulo.onclick=()=>{ capsDiv.style.display=capsDiv.style.display==="block"?"none":"block"; };
+      const capitulos = await fetch(unidade.url).then(r => r.json());
 
-    const capitulos=await fetch(unidade.url).then(r=>r.json());
+      for (const cap of capitulos.filter(c => c.type === "dir")) {
+        const h4 = document.createElement("h4");
+        h4.textContent = formatar(cap.name);
+        capsDiv.appendChild(h4);
 
-    for(const cap of capitulos.filter(c=>c.type==="dir")){
-      const h4=document.createElement("h4"); h4.textContent=formatar(cap.name);
-      capsDiv.appendChild(h4);
+        const ul = document.createElement("ul");
+        const paginas = await fetch(cap.url).then(r => r.json());
 
-      const ul=document.createElement("ul");
-      const paginas=await fetch(cap.url).then(r=>r.json());
+        paginas.filter(p => p.name.endsWith('.html')).forEach(p => {
+          totalPaginas++;
+          
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          const caminho = `${unidade.name}/${cap.name}/${p.name}`;
 
-      paginas.filter(p=>p.name.endsWith('.html')).forEach(p=>{
-        const li=document.createElement("li");
-        const a=document.createElement("a");
-        const caminho=`${unidade.name}/${cap.name}/${p.name}`;
+          a.textContent = formatar(p.name.replace('.html', ''));
+          if (progresso[caminho]) a.classList.add('concluido');
 
-        a.textContent=formatar(p.name.replace('.html',''));
-        if(progresso[caminho]) a.classList.add('concluido');
+          a.onclick = () => {
+            loading.style.display = "block";
+            viewer.style.display = "none";
+            viewer.src = `${pagesBase}/${caminho}`;
+            salvarProgresso(caminho);
+            a.classList.add('concluido');
+            if (window.innerWidth < 900) toggleMenu();
+          };
 
-        a.onclick=()=>{
-          viewer.src=`${pagesBase}/${caminho}`;
-          salvarProgresso(caminho);
-          a.classList.add('concluido');
-          if(window.innerWidth<900) toggleMenu();
-        };
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
 
-        li.appendChild(a);
-        ul.appendChild(li);
-      });
+        capsDiv.appendChild(ul);
+      }
 
-      capsDiv.appendChild(ul);
+      uDiv.appendChild(uTitulo);
+      uDiv.appendChild(capsDiv);
+      indice.appendChild(uDiv);
     }
 
-    uDiv.appendChild(uTitulo);
-    uDiv.appendChild(capsDiv);
-    indice.appendChild(uDiv);
+    atualizarBarraProgresso();
+  } catch (error) {
+    console.error("Erro ao carregar livro:", error);
+    loading.innerHTML = "<p>❌ Erro ao carregar o conteúdo</p>";
   }
 }
 
-function formatar(t){
-  return t.replace(/[-_]/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
+function formatar(t) {
+  return t.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
 carregarLivro();
