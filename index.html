@@ -218,23 +218,59 @@ nav::-webkit-scrollbar-thumb {
   }
 }
 
-.capitulos h4 {
-  margin: 1rem 0 0.75rem;
+.capitulo-header {
+  margin: 1rem 0 0.5rem;
   color: var(--primary-dark);
   font-size: 1rem;
   font-weight: 700;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.capitulo-header:hover {
+  background: var(--hover);
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+
+.capitulo-titulo {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
-.capitulos h4::before {
+.capitulo-titulo::before {
   content: "📖";
   font-size: 1.2rem;
 }
 
+.capitulo-icone {
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+  color: var(--text-light);
+}
+
+.capitulo-header.expandido .capitulo-icone {
+  transform: rotate(180deg);
+}
+
 .capitulos ul {
   list-style: none;
+  display: none;
+  padding-left: 0.5rem;
+}
+
+.capitulos ul.expandido {
+  display: block;
+  animation: slideDown 0.3s ease;
 }
 
 .capitulos li {
@@ -290,6 +326,59 @@ section {
   background: white;
   position: relative;
   overflow: hidden;
+}
+
+.nav-controls {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.nav-btn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+}
+
+.nav-btn:active {
+  transform: translateY(-1px);
+}
+
+.nav-btn:disabled {
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.nav-btn:disabled:hover {
+  transform: none;
+  box-shadow: var(--shadow);
+}
+
+.nav-btn-prev::before {
+  content: "◀";
+}
+
+.nav-btn-next::after {
+  content: "▶";
 }
 
 iframe {
@@ -360,6 +449,17 @@ iframe {
   .overlay.ativo {
     display: block;
   }
+
+  .nav-controls {
+    bottom: 1rem;
+    right: 1rem;
+    flex-direction: column;
+  }
+
+  .nav-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
 }
 
 /* ===== ANIMAÇÕES EXTRAS ===== */
@@ -409,6 +509,10 @@ iframe {
       <p>Carregando...</p>
     </div>
     <iframe id="viewer" style="display: none;"></iframe>
+    <div class="nav-controls">
+      <button class="nav-btn nav-btn-prev" id="btnPrev" onclick="navegarPagina(-1)"></button>
+      <button class="nav-btn nav-btn-next" id="btnNext" onclick="navegarPagina(1)"></button>
+    </div>
   </section>
 </main>
 
@@ -422,6 +526,8 @@ const apiBase   = `https://api.github.com/repos/${owner}/${repo}/contents?ref=${
 
 const progresso = JSON.parse(localStorage.getItem("progressoLivro") || "{}");
 let totalPaginas = 0;
+let todasPaginas = []; // Array para armazenar todas as páginas em ordem
+let paginaAtual = -1; // Índice da página atual
 
 function salvarProgresso(p) {
   progresso[p] = true;
@@ -440,6 +546,40 @@ function atualizarBarraProgresso() {
 function toggleMenu() {
   document.getElementById("nav").classList.toggle("ativo");
   document.getElementById("overlay").classList.toggle("ativo");
+}
+
+function carregarPagina(caminho, linkElement) {
+  loading.style.display = "block";
+  viewer.style.display = "none";
+  viewer.src = `${pagesBase}/${caminho}`;
+  salvarProgresso(caminho);
+  
+  if (linkElement) {
+    linkElement.classList.add('concluido');
+  }
+  
+  // Atualizar página atual
+  paginaAtual = todasPaginas.findIndex(p => p.caminho === caminho);
+  atualizarBotoesNavegacao();
+  
+  if (window.innerWidth < 900) toggleMenu();
+}
+
+function navegarPagina(direcao) {
+  const novoIndice = paginaAtual + direcao;
+  
+  if (novoIndice >= 0 && novoIndice < todasPaginas.length) {
+    const pagina = todasPaginas[novoIndice];
+    carregarPagina(pagina.caminho, pagina.elemento);
+  }
+}
+
+function atualizarBotoesNavegacao() {
+  const btnPrev = document.getElementById("btnPrev");
+  const btnNext = document.getElementById("btnNext");
+  
+  btnPrev.disabled = paginaAtual <= 0;
+  btnNext.disabled = paginaAtual >= todasPaginas.length - 1;
 }
 
 /* ===== CAPA DO LIVRO ===== */
@@ -537,12 +677,23 @@ async function carregarLivro() {
       const capitulos = await fetch(unidade.url).then(r => r.json());
 
       for (const cap of capitulos.filter(c => c.type === "dir")) {
-        const h4 = document.createElement("h4");
-        h4.textContent = formatar(cap.name);
-        capsDiv.appendChild(h4);
+        // Header do capítulo (clicável para expandir/recolher)
+        const capHeader = document.createElement("div");
+        capHeader.className = "capitulo-header";
+        capHeader.innerHTML = `
+          <span class="capitulo-titulo">${formatar(cap.name)}</span>
+          <span class="capitulo-icone">▼</span>
+        `;
 
         const ul = document.createElement("ul");
         const paginas = await fetch(cap.url).then(r => r.json());
+
+        // Adicionar evento de clique no header do capítulo
+        capHeader.onclick = () => {
+          const isExpandido = ul.classList.contains("expandido");
+          ul.classList.toggle("expandido");
+          capHeader.classList.toggle("expandido");
+        };
 
         paginas.filter(p => p.name.endsWith('.html')).forEach(p => {
           totalPaginas++;
@@ -554,19 +705,18 @@ async function carregarLivro() {
           a.textContent = formatar(p.name.replace('.html', ''));
           if (progresso[caminho]) a.classList.add('concluido');
 
+          // Armazenar referência da página para navegação
+          todasPaginas.push({ caminho: caminho, elemento: a });
+
           a.onclick = () => {
-            loading.style.display = "block";
-            viewer.style.display = "none";
-            viewer.src = `${pagesBase}/${caminho}`;
-            salvarProgresso(caminho);
-            a.classList.add('concluido');
-            if (window.innerWidth < 900) toggleMenu();
+            carregarPagina(caminho, a);
           };
 
           li.appendChild(a);
           ul.appendChild(li);
         });
 
+        capsDiv.appendChild(capHeader);
         capsDiv.appendChild(ul);
       }
 
@@ -576,6 +726,7 @@ async function carregarLivro() {
     }
 
     atualizarBarraProgresso();
+    atualizarBotoesNavegacao(); // Inicializar estado dos botões
   } catch (error) {
     console.error("Erro ao carregar livro:", error);
     loading.innerHTML = "<p>❌ Erro ao carregar o conteúdo</p>";
